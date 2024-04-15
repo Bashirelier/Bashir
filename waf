@@ -1,0 +1,57 @@
+import random
+
+class TournamentScoringSystem:
+    def __init__(self):
+        self.teams = []
+        self.individuals = []
+
+    def register_teams(self):
+        for i in range(NUM_TEAMS):
+            team_name = input("Enter team name: ")
+            team_members = []
+            for j in range(TEAM_SIZE):
+                member_name = input(f"Enter name of member {j+1}: ")
+                team_members.append(member_name)
+            self.teams.append({'name': team_name, 'members': team_members})
+
+    def register_individuals(self):
+        for i in range(NUM_INDIVIDUALS):
+            individual_name = input("Enter individual name: ")
+            self.individuals.append(individual_name)
+
+    def run_event(self, event_name):
+        event_scores = {}
+        print(f"Running event: {event_name}")
+        # Logic to conduct the event and assign scores
+        # For simplicity, let's assume random scores for demonstration
+        for team in self.teams:
+            event_scores[team['name']] = random.randint(1, 10)
+        for individual in self.individuals:
+            event_scores[individual] = random.randint(1, 10)
+        return event_scores
+
+    def calculate_points(self, event_scores):
+        sorted_scores = sorted(event_scores.items(), key=lambda x: x[1], reverse=True)
+        points = {}
+        for i, (participant, score) in enumerate(sorted_scores):
+            points[participant] = i + 1
+        return points
+
+    def run_tournament(self):
+        self.register_teams()
+        self.register_individuals()
+
+        for i in range(NUM_EVENTS):
+            event_name = f"Event {i+1}"
+            event_scores = self.run_event(event_name)
+            event_points = self.calculate_points(event_scores)
+            print(f"Points for {event_name}: {event_points}")
+
+if __name__ == "__main__":
+    NUM_TEAMS = 4
+    TEAM_SIZE = 5
+    NUM_INDIVIDUALS = 20
+    NUM_EVENTS = 5
+
+    tournament_system = TournamentScoringSystem()
+    tournament_system.run_tournament()
